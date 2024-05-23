@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import Fact from './Fact';
 
-type FactType = {
+export type FactType = {
   title: string;
   description: string;
   id: string;
 };
+
+export type FactFuctionType = (facts: FactType[]) => void | FactType[];
 
 const GET_FACTS_QUERY = `
     query MyQuery {
@@ -16,13 +19,14 @@ const GET_FACTS_QUERY = `
     }
   `;
 
-export default function Facts() {
-  const [facts, setFacts] = useState([]);
+export default function Facts({
+  facts,
+  setFacts,
+}: {
+  facts: FactType[];
+  setFacts: FactFuctionType;
+}) {
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    console.log(facts);
-  }, [facts]);
 
   useEffect(() => {
     setLoading(true);
@@ -41,14 +45,15 @@ export default function Facts() {
         setFacts(data.data.facts);
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) {
     return <p className='text-3xl text-neutral-200'>Loading...</p>;
   }
 
-  return facts ? (
-    facts.map((fact: FactType) => <div key={fact.id}>{fact.title}</div>)
+  return facts.length > 0 ? (
+    facts.map((fact: FactType) => <Fact key={fact.id} fact={fact} setFacts={setFacts} />)
   ) : (
     <p>No facts uploaded!</p>
   );
