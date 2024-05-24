@@ -1,15 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { FactType } from './Facts';
 
-type CommentType = {
+export type CommentType = {
   username: string;
   comment: string;
   id: string;
 };
 
-export default function AllComments({ fact }: { fact: FactType }) {
-  const [comments, setComments] = useState([]);
+export type CommentFunctionType = (facts: CommentType[]) => void | CommentType[];
 
+export default function AllComments({
+  fact,
+  comments,
+  setComments,
+}: {
+  fact: FactType;
+  comments: CommentType[];
+  setComments: CommentFunctionType;
+}) {
   const GET_COMMENTS_QUERY = `query getComments {
     comments(where: {fact_id: {_eq: "${fact.id}"}}) {
       username
@@ -33,7 +41,7 @@ export default function AllComments({ fact }: { fact: FactType }) {
       .then((data) => {
         setComments(data.data.comments);
       });
-  });
+  }, []);
 
   return (
     <div className='flex flex-col mt-5 text-zinc-200'>

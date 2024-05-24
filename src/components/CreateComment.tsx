@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import AllComments from './AllComments';
 import type { FactType } from './Facts';
+import type { CommentType } from './AllComments';
 
 export default function CreateComment({ fact }: { fact: FactType }) {
+  const [comments, setComments] = useState<CommentType[]>([]);
+
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -32,7 +36,12 @@ export default function CreateComment({ fact }: { fact: FactType }) {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) =>
+        setComments([
+          ...comments,
+          { username, comment, id: data.data.insert_comments.returning[0].id },
+        ])
+      );
 
     e.currentTarget.reset();
   };
@@ -58,7 +67,7 @@ export default function CreateComment({ fact }: { fact: FactType }) {
         </button>
       </form>
       <hr className='mt-5' />
-      <AllComments fact={fact} />
+      <AllComments fact={fact} comments={comments} setComments={setComments} />
     </>
   );
 }
