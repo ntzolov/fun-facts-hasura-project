@@ -53,11 +53,11 @@ export default function Fact({
 
       <div className='flex justify-center gap-3 mt-5'>
         <input
-          className='rounded-md bg-slate-200 px-1'
+          className='rounded-md bg-slate-200 px-1 w-36'
           onChange={passwordHandler}
           value={password}
           type='text'
-          placeholder='Delete Password'
+          placeholder='Delete password...'
         />
         {password === import.meta.env.VITE_ADMIN_PASSWORD && (
           <button
