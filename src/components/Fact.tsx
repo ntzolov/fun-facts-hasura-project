@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CreateComment from './CreateComment';
 import type { FactType } from './Facts';
 import type { FactFunctionType } from './Facts';
