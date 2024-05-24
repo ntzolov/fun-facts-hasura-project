@@ -53,7 +53,7 @@ export default function Fact({
 
       <div className='flex justify-center gap-3 mt-5'>
         <input
-          className='rounded-md px-1'
+          className='rounded-md bg-slate-200 px-1'
           onChange={passwordHandler}
           value={password}
           type='text'
