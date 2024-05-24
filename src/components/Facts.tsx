@@ -43,7 +43,6 @@ export default function Facts({
       .then((res) => res.json())
       .then((data) => {
         setFacts(data.data.facts);
-        console.log(data);
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
