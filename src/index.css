@@ -5,5 +5,9 @@
 @layer base {
   html {
     @apply bg-gray-800;
+
+    font-family: 'Merriweather', serif;
+    font-weight: 400;
+    font-style: normal;
   }
 }
