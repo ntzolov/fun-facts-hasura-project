@@ -41,6 +41,7 @@ export default function AllComments({
       .then((data) => {
         setComments(data.data.comments);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
