@@ -1,7 +1,23 @@
+import { useEffect, useState } from 'react';
+import CreateComment from './CreateComment';
 import type { FactType } from './Facts';
-import type { FactFuctionType } from './Facts';
+import type { FactFunctionType } from './Facts';
 
-export default function Fact({ fact, setFacts }: { fact: FactType; setFacts: FactFuctionType }) {
+export default function Fact({
+  fact,
+  facts,
+  setFacts,
+}: {
+  fact: FactType;
+  facts: FactType[];
+  setFacts: FactFunctionType;
+}) {
+  const [password, setPassword] = useState('');
+
+  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
   async function deleteFact() {
     const DELETE_FACT_QUERY = `mutation MyMutation {
       delete_facts_by_pk(id: "${fact.id}") {
@@ -21,19 +37,36 @@ export default function Fact({ fact, setFacts }: { fact: FactType; setFacts: Fac
     })
       .then((res) => res.json())
       .then((data) => {
-        setFacts((prevFacts: any) => prevFacts.filter((f) => f.id !== fact.id));
+        const newFacts = facts.filter((f) => f.id !== fact.id);
+        setFacts(newFacts);
+        return data;
       });
   }
 
   return (
-    <div className='self-start max-h-96 overflow-auto m-10 p-5 flex flex-col justify-center bg-gray-700 rounded-md max-w-96'>
+    <div className='h-80 overflow-auto p-5 mx-2 flex flex-col bg-gray-700 rounded-md max-w-96'>
       <h1 className='text-amber-100 text-2xl'>{fact.title}</h1>
       <p className='text-lg text-amber-50 pt-5'>{fact.description}</p>
-      <button
-        className='bg-red-400 hover:bg-red-300 transition-all mt-10 self-center py-1 px-2 rounded-sm'
-        onClick={deleteFact}>
-        DELETE
-      </button>
+      <hr className='mt-2' />
+
+      <CreateComment fact={fact} />
+
+      <div className='flex justify-center gap-3 mt-5'>
+        <input
+          className='rounded-md px-1'
+          onChange={passwordHandler}
+          value={password}
+          type='text'
+          placeholder='Delete Password'
+        />
+        {password === import.meta.env.VITE_ADMIN_PASSWORD && (
+          <button
+            className='bg-red-400 hover:bg-red-300 transition-all text-sm font-semibold self-center py-1 px-2 rounded-md'
+            onClick={deleteFact}>
+            DELETE
+          </button>
+        )}
+      </div>
     </div>
   );
 }

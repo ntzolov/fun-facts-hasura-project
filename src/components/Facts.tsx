@@ -7,7 +7,7 @@ export type FactType = {
   id: string;
 };
 
-export type FactFuctionType = (facts: FactType[]) => void | FactType[];
+export type FactFunctionType = (facts: FactType[]) => void | FactType[];
 
 const GET_FACTS_QUERY = `
     query MyQuery {
@@ -24,7 +24,7 @@ export default function Facts({
   setFacts,
 }: {
   facts: FactType[];
-  setFacts: FactFuctionType;
+  setFacts: FactFunctionType;
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -43,6 +43,7 @@ export default function Facts({
       .then((res) => res.json())
       .then((data) => {
         setFacts(data.data.facts);
+        console.log(data);
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,7 +54,9 @@ export default function Facts({
   }
 
   return facts.length > 0 ? (
-    facts.map((fact: FactType) => <Fact key={fact.id} fact={fact} setFacts={setFacts} />)
+    facts.map((fact: FactType) => (
+      <Fact key={fact.id} fact={fact} facts={facts} setFacts={setFacts} />
+    ))
   ) : (
     <p>No facts uploaded!</p>
   );

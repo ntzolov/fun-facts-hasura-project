@@ -71,12 +71,12 @@ export default function CreateFact() {
             className='p-2 rounded-md h-40 w-full'></textarea>
           <button
             disabled={loading}
-            className='px-4 py-2 bg-green-400 rounded-md hover:bg-green-300 transition'>
+            className='px-4 py-2 bg-green-400 rounded-sm hover:bg-green-300 transition'>
             CREATE
           </button>
         </form>
       </div>
-      <div className='pt-3 flex flex-wrap justify-center gap-5'>
+      <div className='pt-3 flex flex-wrap justify-center gap-10 mb-5'>
         <Facts facts={facts} setFacts={setFacts} />
       </div>
     </>
