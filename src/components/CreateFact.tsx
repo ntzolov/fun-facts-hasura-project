@@ -8,7 +8,7 @@ export default function CreateFact() {
   const [facts, setFacts] = useState<FactType[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const INSERT_FACT_QUERY = `mutation MyMutation {
     insert_facts(objects: [{ title: "${title}", description: "${description}"}]) {
@@ -47,9 +47,8 @@ export default function CreateFact() {
         setTitle('');
         setDescription('');
         setFacts([...facts, { title, description, id: data.data.insert_facts.returning[0].id }]);
+        setLoading(false);
       });
-
-    setLoading(false);
   };
 
   return (
@@ -71,8 +70,8 @@ export default function CreateFact() {
             className='p-2 rounded-md h-40 w-full'></textarea>
           <button
             disabled={loading}
-            className='px-4 py-2 bg-green-400 rounded-sm hover:bg-green-300 transition'>
-            CREATE
+            className='px-4 py-2 bg-green-400 rounded-sm hover:bg-green-300 transition disabled:filter disabled:grayscale'>
+            {loading ? 'Loading...' : 'CREATE'}
           </button>
         </form>
       </div>
