@@ -22,9 +22,11 @@ const GET_FACTS_QUERY = `
 export default function Facts({
   facts,
   setFacts,
+  user,
 }: {
   facts: FactType[];
   setFacts: FactFunctionType;
+  user: string;
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -54,7 +56,7 @@ export default function Facts({
 
   return facts.length > 0 ? (
     facts.map((fact: FactType) => (
-      <Fact key={fact.id} fact={fact} facts={facts} setFacts={setFacts} />
+      <Fact key={fact.id} fact={fact} facts={facts} setFacts={setFacts} user={user} />
     ))
   ) : (
     <p>No facts uploaded!</p>
