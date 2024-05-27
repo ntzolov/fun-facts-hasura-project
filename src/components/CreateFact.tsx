@@ -4,14 +4,14 @@ import { useState } from 'react';
 import Facts from './Facts';
 import type { FactType } from './Facts';
 
-export default function CreateFact() {
+export default function CreateFact({ user }: { user: string }) {
   const [facts, setFacts] = useState<FactType[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const INSERT_FACT_QUERY = `mutation MyMutation {
-    insert_facts(objects: [{ title: "${title}", description: "${description}"}]) {
+    insert_facts(objects: [{ title: "${title}", description: "${description}", user_id: "${user}"}]) {
       returning {
         title
         description
@@ -76,7 +76,7 @@ export default function CreateFact() {
         </form>
       </div>
       <div className='pt-3 flex flex-wrap justify-center gap-10 mb-5'>
-        <Facts facts={facts} setFacts={setFacts} />
+        <Facts facts={facts} setFacts={setFacts} user={user} />
       </div>
     </>
   );
